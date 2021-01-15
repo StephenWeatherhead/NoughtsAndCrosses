@@ -160,8 +160,16 @@ namespace NoughtsAndCrosses
 
         public override string ToString()
         {
-            return DrawBoard(board) +
-                $"Current Player: {CurrentPlayer}\n";
+            string boardString = DrawBoard(board);
+            if(GameState == GameState.NoWin)
+            {
+                boardString += "\nCurrent Player: " + CurrentPlayer;
+            }
+            else
+            {
+                boardString += "\nResult: " + GameState;
+            }
+            return boardString;
         }
 
         /// <summary>
