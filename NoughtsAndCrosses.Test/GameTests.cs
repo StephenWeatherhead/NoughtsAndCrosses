@@ -22,5 +22,22 @@ namespace NoughtsAndCrosses.Test
 "  c | 7 | 8 | 9 |\n" +
 "    -------------\n", Game.DrawBoard(board));
         }
+        [Fact]
+        public void ToStringTest()
+        {
+            Game game = new Game();
+            game.Mark(Player.X, 0, 0);
+            game.Mark(Player.O, 1, 1);
+            game.Mark(Player.X, 2, 2);
+            Assert.Equal("      0   1   2\n" +
+"    -------------\n" +
+"  a | X |   |   |\n" +
+"    -------------\n" +
+"  b |   | O |   |\n" +
+"    -------------\n" +
+"  c |   |   | X |\n" +
+"    -------------\n" +
+"Current Player: O\n", game.ToString());
+        }
     }
 }
