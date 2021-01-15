@@ -50,7 +50,7 @@ namespace NoughtsAndCrosses
                 board[row, column] = 'O';
             }
             ToggleCurrentPlayer();
-            //UpdateGameState();
+            GameState = GetGameState(board);
         }
 
         private void ToggleCurrentPlayer()
@@ -65,9 +65,94 @@ namespace NoughtsAndCrosses
             }
         }
 
-        private void UpdateGameState()
+        private static GameState GetGameState(char[,] board)
         {
-            throw new NotImplementedException();
+            char? result = CheckRows(board);
+            if (result != null)
+            {
+                return GetWinner(result.Value);
+            }
+            result = CheckColumns(board);
+            if(result != null)
+            {
+                return GetWinner(result.Value);
+            }
+            result = CheckDiagonals(board);
+            if(result != null)
+            {
+                return GetWinner(result.Value);
+            }
+            if(IsFull(board))
+            {
+                return GameState.Draw;
+            }
+            return GameState.NoWin;
+        }
+
+        private static bool IsFull(char[,] board)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j < 3; j++)
+                {
+                    if(board[i, j] == ' ')
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static char? CheckDiagonals(char[,] board)
+        {
+            if (board[1, 1] != ' ' && (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] ||
+                board[2, 0] == board[1, 1] && board[1, 1] == board[0, 2]))
+            {
+                return board[1, 1];
+            }
+            return null;
+        }
+
+        private static char? CheckRows(char[,] board)
+        {
+            if (board[0, 0] != ' ' && board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2])
+            {
+                return board[0, 0];
+            }
+            else if (board[1, 0] != ' ' && board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2])
+            {
+                return board[1, 0];
+            }
+            else if (board[2, 0] != ' ' && board[2, 0] == board[2, 1] && board[2, 1] == board[2, 2])
+            {
+                return board[2, 0];
+            }
+            return null;
+        }
+        private static char? CheckColumns(char[,] board)
+        {
+            if (board[0, 0] != ' ' && board[0, 0] == board[1, 0] && board[1, 0] == board[2, 0])
+            {
+                return board[0, 0];
+            }
+            else if (board[0, 1] != ' ' && board[0, 1] == board[1, 1] && board[1, 1] == board[2, 1])
+            {
+                return board[0, 1];
+            }
+            else if (board[0, 2] != ' ' && board[0, 2] == board[1, 2] && board[1, 2] == board[2, 2])
+            {
+                return board[0, 2];
+            }
+            return null;
+        }
+        private static GameState GetWinner(char c)
+        {
+            if (c == 'X')
+                return GameState.XWon;
+            else if(c == 'O')
+                return GameState.OWon;
+            throw new ArgumentException("The character must be a game piece");
         }
 
         public GameState GameState { get; private set; }

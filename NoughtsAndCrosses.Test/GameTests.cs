@@ -39,5 +39,53 @@ namespace NoughtsAndCrosses.Test
 "    -------------\n" +
 "Current Player: O\n", game.ToString());
         }
+        [Fact]
+        public void GameCanBeWonDiagonally()
+        {
+            Game game = new Game();
+            game.Mark(Player.X, 0, 0);
+            game.Mark(Player.O, 1, 0);
+            game.Mark(Player.X, 1, 1);
+            game.Mark(Player.O, 2, 0);
+            game.Mark(Player.X, 2, 2);
+            Assert.Equal(GameState.XWon, game.GameState);
+        }
+        [Fact]
+        public void GameCanBeWonVertically()
+        {
+            Game game = new Game();
+            game.Mark(Player.X, 1, 0);
+            game.Mark(Player.O, 0, 0);
+            game.Mark(Player.X, 1, 1);
+            game.Mark(Player.O, 2, 0);
+            game.Mark(Player.X, 1, 2);
+            Assert.Equal(GameState.XWon, game.GameState);
+        }
+        [Fact]
+        public void GameCanBeWonHorizontally()
+        {
+            Game game = new Game();
+            game.Mark(Player.X, 0, 0);
+            game.Mark(Player.O, 0, 1);
+            game.Mark(Player.X, 1, 0);
+            game.Mark(Player.O, 0, 2);
+            game.Mark(Player.X, 2, 0);
+            Assert.Equal(GameState.XWon, game.GameState);
+        }
+        [Fact]
+        public void GameCanDraw()
+        {
+            Game game = new Game();
+            game.Mark(Player.X, 0, 0);
+            game.Mark(Player.O, 1, 0);
+            game.Mark(Player.X, 0, 1);
+            game.Mark(Player.O, 2, 1);
+            game.Mark(Player.X, 1, 1);
+            game.Mark(Player.O, 2, 2);
+            game.Mark(Player.X, 1, 2);
+            game.Mark(Player.O, 0, 2);
+            game.Mark(Player.X, 2, 0);
+            Assert.Equal(GameState.Draw, game.GameState);
+        }
     }
 }
