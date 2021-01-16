@@ -172,6 +172,19 @@ namespace NoughtsAndCrosses
             return boardString;
         }
 
+        public char[,] GetBoard()
+        {
+            char[,] boardCopy = new char[3, 3];
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j < 3; j++)
+                {
+                    boardCopy[i, j] = board[i, j];
+                }
+            }
+            return boardCopy;
+        }
+
         /// <summary>
         /// Returns a string representing the board
         /// </summary>

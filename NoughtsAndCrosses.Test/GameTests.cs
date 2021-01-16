@@ -87,5 +87,15 @@ namespace NoughtsAndCrosses.Test
             game.Mark(Player.X, 2, 0);
             Assert.Equal(WinState.Draw, game.WinState);
         }
+        [Fact]
+        public void GetBoardCopiesBoard()
+        {
+            Game game = new Game();
+            char[,] board1 = game.GetBoard();
+            board1[0, 0] = 'X';
+            char[,] board2 = game.GetBoard();
+            Assert.Equal('X', board1[0, 0]);
+            Assert.Equal(' ', board2[0, 0]);
+        }
     }
 }
