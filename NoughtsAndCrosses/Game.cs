@@ -163,11 +163,11 @@ namespace NoughtsAndCrosses
             string boardString = DrawBoard(board);
             if(WinState == WinState.NoWin)
             {
-                boardString += "\nCurrent Player: " + CurrentPlayer;
+                boardString += "Current Player: " + CurrentPlayer;
             }
             else
             {
-                boardString += "\nResult: " + WinState;
+                boardString += "Result: " + WinState;
             }
             return boardString;
         }

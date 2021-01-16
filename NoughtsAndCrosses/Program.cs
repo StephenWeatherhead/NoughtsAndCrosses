@@ -12,6 +12,7 @@ namespace NoughtsAndCrosses
             {
                 Console.WriteLine(game);
                 string move = Console.ReadLine().ToLower();
+                Console.WriteLine();
                 game.Mark(game.CurrentPlayer, "abc".IndexOf(move[0]), "012".IndexOf(move[1]));
             }
             Console.WriteLine(game);

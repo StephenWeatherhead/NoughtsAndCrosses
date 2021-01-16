@@ -37,7 +37,7 @@ namespace NoughtsAndCrosses.Test
 "    -------------\n" +
 "  c |   |   | X |\n" +
 "    -------------\n" +
-"Current Player: O\n", game.ToString());
+"Current Player: O", game.ToString());
         }
         [Fact]
         public void GameCanBeWonDiagonally()
