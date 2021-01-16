@@ -8,7 +8,7 @@ namespace NoughtsAndCrosses
         {
             Console.WriteLine("Welcome to Noughts and Crosses!");
             Game game = new Game();
-            while (game.GameState == GameState.NoWin)
+            while (game.WinState == WinState.NoWin)
             {
                 Console.WriteLine(game);
                 string move = Console.ReadLine().ToLower();

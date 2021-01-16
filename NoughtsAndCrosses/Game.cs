@@ -15,7 +15,7 @@ namespace NoughtsAndCrosses
                 { ' ', ' ', ' ' },
                 { ' ', ' ', ' ' }
             };
-            GameState = GameState.NoWin;
+            WinState = WinState.NoWin;
             CurrentPlayer = Player.X;
         }
         /// <summary>
@@ -26,7 +26,7 @@ namespace NoughtsAndCrosses
         /// <param name="column"></param>
         public void Mark(Player player, int row, int column)
         {
-            if(GameState != GameState.NoWin)
+            if(WinState != WinState.NoWin)
             {
                 throw new InvalidOperationException("The game is complete, cannot mark the board.");
             }
@@ -50,7 +50,7 @@ namespace NoughtsAndCrosses
                 board[row, column] = 'O';
             }
             ToggleCurrentPlayer();
-            GameState = GetGameState(board);
+            WinState = GetWinState(board);
         }
 
         private void ToggleCurrentPlayer()
@@ -65,7 +65,7 @@ namespace NoughtsAndCrosses
             }
         }
 
-        private static GameState GetGameState(char[,] board)
+        private static WinState GetWinState(char[,] board)
         {
             char? result = CheckRows(board);
             if (result != null)
@@ -84,9 +84,9 @@ namespace NoughtsAndCrosses
             }
             if(IsFull(board))
             {
-                return GameState.Draw;
+                return WinState.Draw;
             }
-            return GameState.NoWin;
+            return WinState.NoWin;
         }
 
         private static bool IsFull(char[,] board)
@@ -146,28 +146,28 @@ namespace NoughtsAndCrosses
             }
             return null;
         }
-        private static GameState GetWinner(char c)
+        private static WinState GetWinner(char c)
         {
             if (c == 'X')
-                return GameState.XWon;
+                return WinState.XWon;
             else if(c == 'O')
-                return GameState.OWon;
+                return WinState.OWon;
             throw new ArgumentException("The character must be a game piece");
         }
 
-        public GameState GameState { get; private set; }
+        public WinState WinState { get; private set; }
         public Player CurrentPlayer { get; private set; }
 
         public override string ToString()
         {
             string boardString = DrawBoard(board);
-            if(GameState == GameState.NoWin)
+            if(WinState == WinState.NoWin)
             {
                 boardString += "\nCurrent Player: " + CurrentPlayer;
             }
             else
             {
-                boardString += "\nResult: " + GameState;
+                boardString += "\nResult: " + WinState;
             }
             return boardString;
         }

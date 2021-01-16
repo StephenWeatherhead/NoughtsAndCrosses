@@ -48,7 +48,7 @@ namespace NoughtsAndCrosses.Test
             game.Mark(Player.X, 1, 1);
             game.Mark(Player.O, 2, 0);
             game.Mark(Player.X, 2, 2);
-            Assert.Equal(GameState.XWon, game.GameState);
+            Assert.Equal(WinState.XWon, game.WinState);
         }
         [Fact]
         public void GameCanBeWonVertically()
@@ -59,7 +59,7 @@ namespace NoughtsAndCrosses.Test
             game.Mark(Player.X, 1, 1);
             game.Mark(Player.O, 2, 0);
             game.Mark(Player.X, 1, 2);
-            Assert.Equal(GameState.XWon, game.GameState);
+            Assert.Equal(WinState.XWon, game.WinState);
         }
         [Fact]
         public void GameCanBeWonHorizontally()
@@ -70,7 +70,7 @@ namespace NoughtsAndCrosses.Test
             game.Mark(Player.X, 1, 0);
             game.Mark(Player.O, 0, 2);
             game.Mark(Player.X, 2, 0);
-            Assert.Equal(GameState.XWon, game.GameState);
+            Assert.Equal(WinState.XWon, game.WinState);
         }
         [Fact]
         public void GameCanDraw()
@@ -85,7 +85,7 @@ namespace NoughtsAndCrosses.Test
             game.Mark(Player.X, 1, 2);
             game.Mark(Player.O, 0, 2);
             game.Mark(Player.X, 2, 0);
-            Assert.Equal(GameState.Draw, game.GameState);
+            Assert.Equal(WinState.Draw, game.WinState);
         }
     }
 }

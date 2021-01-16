@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NoughtsAndCrosses
 {
-    public enum GameState
+    public enum WinState
     {
         NoWin,
         XWon,
