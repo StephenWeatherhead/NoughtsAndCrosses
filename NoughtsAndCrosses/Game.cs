@@ -40,17 +40,20 @@ namespace NoughtsAndCrosses
             {
                 throw new ArgumentException("The player is not the current player");
             }
-            
-            if(player == Player.X)
-            {
-                board[row, column] = 'X';
-            }
-            else
-            {
-                board[row, column] = 'O';
-            }
+
+            board[row, column] = GetPlayerChar(player);
+
             ToggleCurrentPlayer();
             WinState = GetWinState(board);
+        }
+
+        public static char GetPlayerChar(Player player)
+        {
+            if (player == Player.X)
+            {
+                return 'X';
+            }
+            return 'O';
         }
 
         public void Mark(Player player, Move move)
