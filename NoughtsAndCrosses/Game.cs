@@ -53,6 +53,11 @@ namespace NoughtsAndCrosses
             WinState = GetWinState(board);
         }
 
+        public void Mark(Player player, Move move)
+        {
+            Mark(player, move.Row, move.Column);
+        }
+
         private void ToggleCurrentPlayer()
         {
             if(CurrentPlayer == Player.X)

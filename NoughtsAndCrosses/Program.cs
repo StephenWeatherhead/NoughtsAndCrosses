@@ -7,13 +7,24 @@ namespace NoughtsAndCrosses
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Noughts and Crosses!");
+            Console.WriteLine();
             Game game = new Game();
+            IPlayer playerX = new HumanPlayer(Player.X);
+            IPlayer playerO = new HumanPlayer(Player.O);
             while (game.WinState == WinState.NoWin)
             {
+                IPlayer currentPlayer;
+                if(game.CurrentPlayer == Player.X)
+                {
+                    currentPlayer = playerX;
+                }
+                else
+                {
+                    currentPlayer = playerO;
+                }
                 Console.WriteLine(game);
-                string move = Console.ReadLine().ToLower();
+                game.Mark(game.CurrentPlayer, currentPlayer.GetNextMove(game.GetBoard()));
                 Console.WriteLine();
-                game.Mark(game.CurrentPlayer, "abc".IndexOf(move[0]), "012".IndexOf(move[1]));
             }
             Console.WriteLine(game);
             Console.WriteLine("Press enter to continue");
