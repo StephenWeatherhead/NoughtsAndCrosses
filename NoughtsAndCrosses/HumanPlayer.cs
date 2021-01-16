@@ -6,12 +6,6 @@ namespace NoughtsAndCrosses
 {
     public class HumanPlayer : IPlayer
     {
-        private Player _player;
-        public HumanPlayer(Player player)
-        {
-            _player = player;
-        }
-
         public Move GetNextMove(char[,] board)
         {
             string move = Console.ReadLine().ToLower();

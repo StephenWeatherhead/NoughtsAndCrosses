@@ -9,8 +9,8 @@ namespace NoughtsAndCrosses
             Console.WriteLine("Welcome to Noughts and Crosses!");
             Console.WriteLine();
             Game game = new Game();
-            IPlayer playerX = new HumanPlayer(Player.X);
-            IPlayer playerO = new HumanPlayer(Player.O);
+            IPlayer playerX = new HumanPlayer();
+            IPlayer playerO = new HumanPlayer();
             while (game.WinState == WinState.NoWin)
             {
                 IPlayer currentPlayer;
