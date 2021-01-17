@@ -70,7 +70,131 @@ namespace NoughtsAndCrosses
         }
         public static Move WinRule(char[,] board, char player)
         {
-            throw new NotImplementedException();
+            Move move = WinRuleCheckColumns(board, player);
+            if (move != null)
+            {
+                return move;
+            }
+            move = WinRuleCheckRows(board, player);
+            if(move != null)
+            {
+                return move;
+            }
+            move = WinRuleCheckDiagonals(board, player);
+            if(move != null)
+            {
+                return move;
+            }
+            return null;
+        }
+
+        private static Move WinRuleCheckDiagonals(char[,] board, char player)
+        {
+            Move lastUnmarked = null;
+            int playerCount = 0;
+            for(int i = 0; i < 3; i++)
+            {
+                char c = board[i, i];
+                if (Game.IsUnmarked(c))
+                {
+                    lastUnmarked = new Move { Row = i, Column = i };
+                }
+                else if (c == player)
+                {
+                    playerCount++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (lastUnmarked != null && playerCount == 2)
+            {
+                return lastUnmarked;
+            }
+            lastUnmarked = null;
+            playerCount = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                char c = board[2 - i, i];
+                if (Game.IsUnmarked(c))
+                {
+                    lastUnmarked = new Move { Row = 2 - i, Column = i };
+                }
+                else if (c == player)
+                {
+                    playerCount++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (lastUnmarked != null && playerCount == 2)
+            {
+                return lastUnmarked;
+            }
+            return null;
+        }
+
+        private static Move WinRuleCheckRows(char[,] board, char player)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                Move lastUnmarked = null;
+                int playerCount = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    char c = board[i, j];
+                    if (Game.IsUnmarked(c))
+                    {
+                        lastUnmarked = new Move { Row = i, Column = j };
+                    }
+                    else if (c == player)
+                    {
+                        playerCount++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (lastUnmarked != null && playerCount == 2)
+                {
+                    return lastUnmarked;
+                }
+            }
+            return null;
+        }
+
+        private static Move WinRuleCheckColumns(char[,] board, char player)
+        {
+            for(int i = 0; i < 3;i++)
+            {
+                Move lastUnmarked = null;
+                int playerCount = 0;
+                for(int j = 0; j < 3;j++)
+                {
+                    char c = board[i, j];
+                    if (Game.IsUnmarked(c))
+                    {
+                        lastUnmarked = new Move { Row = i, Column = j };
+                    }
+                    else if(c == player)
+                    {
+                        playerCount++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if(lastUnmarked != null && playerCount == 2)
+                {
+                    return lastUnmarked;
+                }
+            }
+            return null;
         }
 
         public static Move BlockRule(char[,] board, char player)

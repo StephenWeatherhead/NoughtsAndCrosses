@@ -97,5 +97,15 @@ namespace NoughtsAndCrosses.Test
             Assert.Equal('X', board1[0, 0]);
             Assert.Equal(' ', board2[0, 0]);
         }
+        [Fact]
+        public void WinRuleTest()
+        {
+            Move move = BotPlayer.WinRule(new char[,] { { ' ', 'O', 'X' },
+            { ' ', ' ', ' ' },
+            { 'X', 'O', ' ' } }, 'X');
+
+            Assert.Equal(1, move.Row);
+            Assert.Equal(1, move.Column);
+        }
     }
 }

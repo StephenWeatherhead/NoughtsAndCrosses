@@ -31,7 +31,7 @@ namespace NoughtsAndCrosses
                 throw new InvalidOperationException("The game is complete, cannot mark the board.");
             }
 
-            if (board[row, column] != ' ')
+            if (!IsUnmarked(board[row, column]))
             {
                 throw new ArgumentException("That board space is already marked");
             }
@@ -54,6 +54,11 @@ namespace NoughtsAndCrosses
                 return 'X';
             }
             return 'O';
+        }
+
+        public static bool IsUnmarked(char c)
+        {
+            return c == ' ';
         }
 
         public void Mark(Player player, Move move)
