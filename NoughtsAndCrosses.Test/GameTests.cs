@@ -102,7 +102,7 @@ namespace NoughtsAndCrosses.Test
         {
             Move move = BotPlayer.WinRule(new char[,] { { ' ', 'O', 'X' },
             { ' ', ' ', ' ' },
-            { 'X', 'O', ' ' } }, 'X');
+            { 'X', 'O', ' ' } }, Player.X);
 
             Assert.Equal(1, move.Row);
             Assert.Equal(1, move.Column);
@@ -112,7 +112,7 @@ namespace NoughtsAndCrosses.Test
         {
             Move move = BotPlayer.BlockRule(new char[,] { { ' ', 'O', 'X' },
             { ' ', 'O', ' ' },
-            { 'X', ' ', ' ' } }, 'X');
+            { 'X', ' ', ' ' } }, Player.X);
 
             Assert.Equal(2, move.Row);
             Assert.Equal(1, move.Column);

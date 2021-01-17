@@ -56,11 +56,11 @@ namespace NoughtsAndCrosses
             return 'O';
         }
 
-        public static char GetOppositePlayer(char c)
+        public static Player GetOppositePlayer(Player player)
         {
-            if (c == 'X')
-                return 'O';
-            return 'X';
+            if (player == Player.X)
+                return Player.O;
+            return Player.X;
         }
 
         public static bool IsUnmarked(char c)
@@ -85,7 +85,7 @@ namespace NoughtsAndCrosses
             }
         }
 
-        private static WinState GetWinState(char[,] board)
+        public static WinState GetWinState(char[,] board)
         {
             char? result = CheckRows(board);
             if (result != null)
@@ -194,10 +194,17 @@ namespace NoughtsAndCrosses
 
         public char[,] GetBoard()
         {
+            return CopyBoard(board);
+        }
+
+        public static char GetUnmarked() => ' ';
+
+        public static char[,] CopyBoard(char[,] board)
+        {
             char[,] boardCopy = new char[3, 3];
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for(int j = 0; j < 3; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     boardCopy[i, j] = board[i, j];
                 }

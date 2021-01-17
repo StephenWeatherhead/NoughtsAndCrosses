@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -7,10 +8,10 @@ namespace NoughtsAndCrosses
 {
     public class BotPlayer : IPlayer
     {
-        private char _player;
+        private Player _player;
         public BotPlayer(Player player)
         {
-            _player = Game.GetPlayerChar(player);
+            _player = player;
         }
 
         public Move GetNextMove(char[,] board)
@@ -24,7 +25,7 @@ namespace NoughtsAndCrosses
         /// <param name="board"></param>
         /// <param name="player"></param>
         /// <returns></returns>
-        public static Move GetNextMove(char[,] board, char player)
+        public static Move GetNextMove(char[,] board, Player player)
         {
             Move move = WinRule(board, player);
             if (move != null)
@@ -68,175 +69,121 @@ namespace NoughtsAndCrosses
             }
             throw new InvalidOperationException("There are no possible moves left");
         }
-        public static Move WinRule(char[,] board, char player)
+        public static Move WinRule(char[,] board, Player player)
         {
-            Move move = WinRuleCheckColumns(board, player);
-            if (move != null)
-            {
-                return move;
-            }
-            move = WinRuleCheckRows(board, player);
-            if(move != null)
-            {
-                return move;
-            }
-            move = WinRuleCheckDiagonals(board, player);
-            if(move != null)
-            {
-                return move;
-            }
-            return null;
+            return GetWins(board, player).FirstOrDefault();
         }
 
-        private static Move WinRuleCheckDiagonals(char[,] board, char player)
+        public static IEnumerable<Move> GetWins(char[,] board, Player player)
         {
-            Move lastUnmarked = null;
-            int playerCount = 0;
-            for(int i = 0; i < 3; i++)
-            {
-                char c = board[i, i];
-                if (Game.IsUnmarked(c))
-                {
-                    lastUnmarked = new Move { Row = i, Column = i };
-                }
-                else if (c == player)
-                {
-                    playerCount++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            if (lastUnmarked != null && playerCount == 2)
-            {
-                return lastUnmarked;
-            }
-            lastUnmarked = null;
-            playerCount = 0;
             for (int i = 0; i < 3; i++)
             {
-                char c = board[2 - i, i];
-                if (Game.IsUnmarked(c))
+                for (int j = 0; j < 3; j++)
                 {
-                    lastUnmarked = new Move { Row = 2 - i, Column = i };
-                }
-                else if (c == player)
-                {
-                    playerCount++;
-                }
-                else
-                {
-                    break;
+                    if (Game.IsUnmarked(board[i, j]))
+                    {
+                        board[i, j] = Game.GetPlayerChar(player);
+                        var winState = Game.GetWinState(board);
+                        board[i, j] = Game.GetUnmarked();
+                        if (winState == WinState.OWon || winState == WinState.XWon)
+                        {
+                            yield return new Move { Row = i, Column = j };
+                        }
+                    }
                 }
             }
-            if (lastUnmarked != null && playerCount == 2)
-            {
-                return lastUnmarked;
-            }
-            return null;
         }
 
-        private static Move WinRuleCheckRows(char[,] board, char player)
+        public static Move BlockRule(char[,] board, Player player)
         {
-            for (int j = 0; j < 3; j++)
-            {
-                Move lastUnmarked = null;
-                int playerCount = 0;
-                for (int i = 0; i < 3; i++)
-                {
-                    char c = board[i, j];
-                    if (Game.IsUnmarked(c))
-                    {
-                        lastUnmarked = new Move { Row = i, Column = j };
-                    }
-                    else if (c == player)
-                    {
-                        playerCount++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                if (lastUnmarked != null && playerCount == 2)
-                {
-                    return lastUnmarked;
-                }
-            }
-            return null;
-        }
-
-        private static Move WinRuleCheckColumns(char[,] board, char player)
-        {
-            for(int i = 0; i < 3;i++)
-            {
-                Move lastUnmarked = null;
-                int playerCount = 0;
-                for(int j = 0; j < 3;j++)
-                {
-                    char c = board[i, j];
-                    if (Game.IsUnmarked(c))
-                    {
-                        lastUnmarked = new Move { Row = i, Column = j };
-                    }
-                    else if(c == player)
-                    {
-                        playerCount++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                if(lastUnmarked != null && playerCount == 2)
-                {
-                    return lastUnmarked;
-                }
-            }
-            return null;
-        }
-
-        public static Move BlockRule(char[,] board, char player)
-        {
-            Move move = WinRuleCheckColumns(board, Game.GetOppositePlayer(player));
-            if (move != null)
-            {
-                return move;
-            }
-            move = WinRuleCheckRows(board, Game.GetOppositePlayer(player));
-            if (move != null)
-            {
-                return move;
-            }
-            move = WinRuleCheckDiagonals(board, Game.GetOppositePlayer(player));
+            Move move = WinRule(board, Game.GetOppositePlayer(player));
             if (move != null)
             {
                 return move;
             }
             return null;
         }
-        public static Move ForkRule(char[,] board, char player)
+        public static Move ForkRule(char[,] board, Player player)
+        {
+            return GetForks(board, player).FirstOrDefault();
+        }
+
+        public static IEnumerable<Move> GetForks(char[,] board, Player player)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (Game.IsUnmarked(board[i, j]))
+                    {
+                        board[i, j] = Game.GetPlayerChar(player);
+                        int wins = GetWins(board, player).Count();
+                        board[i, j] = Game.GetUnmarked();
+                        if (wins > 1)
+                        {
+                            yield return new Move { Row = i, Column = j };
+                        }
+                    }
+                }
+            }
+        }
+
+        public static Move BlockForkRule(char[,] board, Player player)
+        {
+            List<Move> forks = GetForks(board, Game.GetOppositePlayer(player)).ToList();
+            if(forks.Count > 1)
+            {
+                foreach(Move fork in forks)
+                {
+                    board[fork.Row, fork.Column] = Game.GetPlayerChar(player);
+                    Move win = WinRule(board, player);
+                    if(win != null)
+                    {
+                        Move winFork = GetForks(board, Game.GetOppositePlayer(player)).First();
+                        if (winFork != null)
+                        {
+                            return fork;
+                        }
+                    }
+                    board[fork.Row, fork.Column] = Game.GetUnmarked();
+                }
+                for(int i = 0; i < 3; i++)
+                {
+                    for(int j = 0; j < 3; j++)
+                    {
+                        board[i, j] = Game.GetPlayerChar(player);
+                        Move win = GetWins(board, player).FirstOrDefault();
+                        if (win != null && GetForks(board, Game.GetOppositePlayer(player)).Count() > 1)
+                        {
+                            return new Move { Row = i, Column = j };
+                        }
+                        board[i, j] = Game.GetUnmarked();
+                    }
+                }
+                throw new InvalidOperationException("We should not reach here");
+            }
+            else if(forks.Count == 1)
+            {
+                return forks[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static Move CentreRule(char[,] board, Player player)
         {
             throw new NotImplementedException();
         }
-        public static Move BlockForkRule(char[,] board, char player)
+        public static Move OppositeCornerRule(char[,] board, Player player)
         {
             throw new NotImplementedException();
         }
-        public static Move CentreRule(char[,] board, char player)
+        public static Move EmptyCornerRule(char[,] board, Player player)
         {
             throw new NotImplementedException();
         }
-        public static Move OppositeCornerRule(char[,] board, char player)
-        {
-            throw new NotImplementedException();
-        }
-        public static Move EmptyCornerRule(char[,] board, char player)
-        {
-            throw new NotImplementedException();
-        }
-        public static Move EmptySideRule(char[,] board, char player)
+        public static Move EmptySideRule(char[,] board, Player player)
         {
             throw new NotImplementedException();
         }
