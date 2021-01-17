@@ -199,7 +199,22 @@ namespace NoughtsAndCrosses
 
         public static Move BlockRule(char[,] board, char player)
         {
-            throw new NotImplementedException();
+            Move move = WinRuleCheckColumns(board, Game.GetOppositePlayer(player));
+            if (move != null)
+            {
+                return move;
+            }
+            move = WinRuleCheckRows(board, Game.GetOppositePlayer(player));
+            if (move != null)
+            {
+                return move;
+            }
+            move = WinRuleCheckDiagonals(board, Game.GetOppositePlayer(player));
+            if (move != null)
+            {
+                return move;
+            }
+            return null;
         }
         public static Move ForkRule(char[,] board, char player)
         {

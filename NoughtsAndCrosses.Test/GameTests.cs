@@ -107,5 +107,15 @@ namespace NoughtsAndCrosses.Test
             Assert.Equal(1, move.Row);
             Assert.Equal(1, move.Column);
         }
+        [Fact]
+        public void BlockRuleTest()
+        {
+            Move move = BotPlayer.BlockRule(new char[,] { { ' ', 'O', 'X' },
+            { ' ', 'O', ' ' },
+            { 'X', ' ', ' ' } }, 'X');
+
+            Assert.Equal(2, move.Row);
+            Assert.Equal(1, move.Column);
+        }
     }
 }

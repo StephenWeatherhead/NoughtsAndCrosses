@@ -56,6 +56,13 @@ namespace NoughtsAndCrosses
             return 'O';
         }
 
+        public static char GetOppositePlayer(char c)
+        {
+            if (c == 'X')
+                return 'O';
+            return 'X';
+        }
+
         public static bool IsUnmarked(char c)
         {
             return c == ' ';
