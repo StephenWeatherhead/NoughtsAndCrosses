@@ -26,78 +26,78 @@ namespace NoughtsAndCrosses
         /// <returns></returns>
         public static Move GetNextMove(char[,] board, char player)
         {
-            RuleResult result = Win(board, player);
-            if (result.Success)
+            Move move = WinRule(board, player);
+            if (move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = Block(board, player);
-            if(result.Success)
+            move = BlockRule(board, player);
+            if(move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = Fork(board, player);
-            if(result.Success)
+            move = ForkRule(board, player);
+            if(move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = BlockFork(board, player);
-            if(result.Success)
+            move = BlockForkRule(board, player);
+            if(move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = Centre(board, player);
-            if(result.Success)
+            move = CentreRule(board, player);
+            if(move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = OppositeCorner(board, player);
-            if(result.Success)
+            move = OppositeCornerRule(board, player);
+            if(move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = EmptyCorner(board, player);
-            if (result.Success)
+            move = EmptyCornerRule(board, player);
+            if (move != null)
             {
-                return result.Move;
+                return move;
             }
-            result = EmptySide(board, player);
-            if (result.Success)
+            move = EmptySideRule(board, player);
+            if (move != null)
             {
-                return result.Move;
+                return move;
             }
             throw new InvalidOperationException("There are no possible moves left");
         }
-        public static RuleResult Win(char[,] board, char player)
+        public static Move WinRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
 
-        public static RuleResult Block(char[,] board, char player)
+        public static Move BlockRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
-        public static RuleResult Fork(char[,] board, char player)
+        public static Move ForkRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
-        public static RuleResult BlockFork(char[,] board, char player)
+        public static Move BlockForkRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
-        public static RuleResult Centre(char[,] board, char player)
+        public static Move CentreRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
-        public static RuleResult OppositeCorner(char[,] board, char player)
+        public static Move OppositeCornerRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
-        public static RuleResult EmptyCorner(char[,] board, char player)
+        public static Move EmptyCornerRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
-        public static RuleResult EmptySide(char[,] board, char player)
+        public static Move EmptySideRule(char[,] board, char player)
         {
             throw new NotImplementedException();
         }
