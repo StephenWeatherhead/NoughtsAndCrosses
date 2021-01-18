@@ -173,7 +173,11 @@ namespace NoughtsAndCrosses
         }
         public static Move CentreRule(char[,] board, Player player)
         {
-            throw new NotImplementedException();
+            if(Game.IsUnmarked(board[1, 1]))
+            {
+                return new Move { Row = 1, Column = 1 };
+            }
+            return null;
         }
         public static Move OppositeCornerRule(char[,] board, Player player)
         {

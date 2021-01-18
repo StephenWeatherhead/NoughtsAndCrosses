@@ -141,5 +141,17 @@ namespace NoughtsAndCrosses.Test
             Assert.Equal(0, move.Row);
             Assert.Equal(2, move.Column);
         }
+        [Fact]
+        public void CentreTest()
+        {
+            Move move = BotPlayer.CentreRule(new char[,]
+            {
+                { ' ', ' ', ' ' },
+                { ' ', ' ', ' ' },
+                { ' ', ' ', ' ' }
+            }, Player.O);
+            Assert.Equal(1, move.Row);
+            Assert.Equal(1, move.Column);
+        }
     }
 }
