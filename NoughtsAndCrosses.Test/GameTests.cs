@@ -117,5 +117,17 @@ namespace NoughtsAndCrosses.Test
             Assert.Equal(2, move.Row);
             Assert.Equal(1, move.Column);
         }
+        [Fact]
+        public void ForkTest()
+        {
+            Move move = BotPlayer.ForkRule(new char[,]
+            {
+                { ' ', 'X', ' ' },
+                { 'O', 'O', 'X' },
+                { ' ', ' ', ' ' }
+            }, Player.X);
+            Assert.Equal(0, move.Row);
+            Assert.Equal(2, move.Column);
+        }
     }
 }
