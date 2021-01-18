@@ -139,7 +139,7 @@ namespace NoughtsAndCrosses
                     Move win = WinRule(board, player);
                     if(win != null)
                     {
-                        Move winFork = GetForks(board, Game.GetOppositePlayer(player)).First();
+                        Move winFork = GetForks(board, Game.GetOppositePlayer(player)).FirstOrDefault();
                         if (winFork != null)
                         {
                             return fork;
