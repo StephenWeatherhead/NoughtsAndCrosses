@@ -129,5 +129,17 @@ namespace NoughtsAndCrosses.Test
             Assert.Equal(0, move.Row);
             Assert.Equal(2, move.Column);
         }
+        [Fact]
+        public void BlockForkTest()
+        {
+            Move move = BotPlayer.BlockForkRule(new char[,]
+            {
+                { ' ', 'X', ' ' },
+                { 'O', 'O', 'X' },
+                { ' ', ' ', ' ' }
+            }, Player.O);
+            Assert.Equal(0, move.Row);
+            Assert.Equal(2, move.Column);
+        }
     }
 }
