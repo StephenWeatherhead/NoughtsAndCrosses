@@ -10,7 +10,7 @@ namespace NoughtsAndCrosses
             Console.WriteLine();
             Game game = new Game();
             IPlayer playerX = new HumanPlayer();
-            IPlayer playerO = new HumanPlayer();
+            IPlayer playerO = new BotPlayer(Player.O);
             while (game.WinState == WinState.NoWin)
             {
                 IPlayer currentPlayer;
