@@ -181,8 +181,102 @@ namespace NoughtsAndCrosses
         }
         public static Move OppositeCornerRule(char[,] board, Player player)
         {
-            throw new NotImplementedException();
+            Move move = OppositeTopLeftCorner(board, player);
+            if(move != null)
+            {
+                return move;
+            }
+            move = OppositeTopRightCorner(board, player);
+            if (move != null)
+            {
+                return move;
+            }
+            move = OppositeBottomLeftCorner(board, player);
+            if (move != null)
+            {
+                return move;
+            }
+            move = OppositeBottomRightCorner(board, player);
+            if (move != null)
+            {
+                return move;
+            }
+            return null;
         }
+
+        private static Move OppositeBottomRightCorner(char[,] board, Player player)
+        {
+            char oppositeChar = GetOppositeChar(player);
+            if (board[2, 2] == oppositeChar)
+            {
+                if (Game.IsUnmarked(board[2, 1]) && Game.IsUnmarked(board[2, 0]))
+                {
+                    return new Move { Row = 2, Column = 0 };
+                }
+                if (Game.IsUnmarked(board[1, 2]) && Game.IsUnmarked(board[0, 2]))
+                {
+                    return new Move { Row = 0, Column = 2 };
+                }
+            }
+            return null;
+        }
+
+        private static Move OppositeBottomLeftCorner(char[,] board, Player player)
+        {
+            char oppositeChar = GetOppositeChar(player);
+            if (board[2, 0] == oppositeChar)
+            {
+                if (Game.IsUnmarked(board[1, 0]) && Game.IsUnmarked(board[0, 0]))
+                {
+                    return new Move { Row = 0, Column = 0 };
+                }
+                if (Game.IsUnmarked(board[2, 1]) && Game.IsUnmarked(board[2, 2]))
+                {
+                    return new Move { Row = 2, Column = 2 };
+                }
+            }
+            return null;
+        }
+
+        private static Move OppositeTopRightCorner(char[,] board, Player player)
+        {
+            char oppositeChar = GetOppositeChar(player);
+            if (board[0, 2] == oppositeChar)
+            {
+                if (Game.IsUnmarked(board[0, 1]) && Game.IsUnmarked(board[0,0]))
+                {
+                    return new Move { Row = 0, Column = 0 };
+                }
+                if (Game.IsUnmarked(board[1, 2]) && Game.IsUnmarked(board[2, 2]))
+                {
+                    return new Move { Row = 2, Column = 2 };
+                }
+            }
+            return null;
+        }
+
+        private static Move OppositeTopLeftCorner(char[,] board, Player player)
+        {
+            char oppositeChar = GetOppositeChar(player);
+            if(board[0,0] == oppositeChar)
+            {
+                if(Game.IsUnmarked(board[0, 1]) && Game.IsUnmarked(board[0, 2]))
+                {
+                    return new Move { Row = 0, Column = 2 };
+                }
+                if (Game.IsUnmarked(board[1, 0]) && Game.IsUnmarked(board[2, 0]))
+                {
+                    return new Move { Row = 2, Column = 0 };
+                }
+            }
+            return null;
+        }
+
+        private static char GetOppositeChar(Player player)
+        {
+            return Game.GetPlayerChar(Game.GetOppositePlayer(player));
+        }
+
         public static Move EmptyCornerRule(char[,] board, Player player)
         {
             throw new NotImplementedException();
