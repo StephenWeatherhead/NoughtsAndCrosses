@@ -299,7 +299,23 @@ namespace NoughtsAndCrosses
         }
         public static Move EmptySideRule(char[,] board, Player player)
         {
-            throw new NotImplementedException();
+            if(Game.IsUnmarked(board[0, 1]))
+            {
+                return new Move { Row = 0, Column = 1 };
+            }
+            if(Game.IsUnmarked(board[1, 0]))
+            {
+                return new Move { Row = 1, Column = 0 };
+            }
+            if(Game.IsUnmarked(board[1, 2]))
+            {
+                return new Move { Row = 1, Column = 2 };
+            }
+            if (Game.IsUnmarked(board[2, 1]))
+            {
+                return new Move { Row = 2, Column = 1 };
+            }
+            return null;
         }
     }
 }
