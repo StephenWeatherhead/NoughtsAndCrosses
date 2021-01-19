@@ -17,7 +17,12 @@ namespace NoughtsAndCrosses
         public Move GetNextMove(char[,] board)
         {
             Thread.Sleep(1000);
-            return GetNextMove(board, _player);
+            Move move = GetNextMove(board, _player);
+            if(move == null)
+            {
+                throw new InvalidOperationException("ERROR CODE 3: No move found");
+            }
+            return move;
         }
         /// <summary>
         /// Implements Newell and Simon's 1972 tic-tac-toe strategy
@@ -67,7 +72,7 @@ namespace NoughtsAndCrosses
             {
                 return move;
             }
-            throw new InvalidOperationException("There are no possible moves left");
+            throw new InvalidOperationException("ERROR CODE 1: There are no possible moves left");
         }
         public static Move WinRule(char[,] board, Player player)
         {
@@ -160,7 +165,7 @@ namespace NoughtsAndCrosses
                         board[i, j] = Game.GetUnmarked();
                     }
                 }
-                throw new InvalidOperationException("We should not reach here");
+                throw new InvalidOperationException("ERROR CODE 2: We should not reach here");
             }
             else if(forks.Count == 1)
             {
