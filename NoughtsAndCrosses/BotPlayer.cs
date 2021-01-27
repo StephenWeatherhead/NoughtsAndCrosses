@@ -138,31 +138,40 @@ namespace NoughtsAndCrosses
             List<Move> forks = GetForks(board, Game.GetOppositePlayer(player)).ToList();
             if(forks.Count > 1)
             {
-                foreach(Move fork in forks)
+                for(int i = 0; i < 3; i++)
                 {
-                    board[fork.Row, fork.Column] = Game.GetPlayerChar(player);
-                    Move win = WinRule(board, player);
-                    if(win != null)
+                    for(int j = 0; j < 3; j++)
                     {
-                        Move winFork = GetForks(board, Game.GetOppositePlayer(player)).FirstOrDefault();
-                        if (winFork != null)
+                        if(Game.IsUnmarked(board[i, j]))
                         {
-                            return fork;
+                            board[i, j] = Game.GetPlayerChar(player);
+                            Move win = GetWins(board, player).FirstOrDefault();
+                            if(win != null && GetForks(board, Game.GetOppositePlayer(player)).Count() == 0)
+                            {
+                                return new Move { Row = i, Column = j };
+                            }
+                            board[i, j] = Game.GetUnmarked();
                         }
                     }
-                    board[fork.Row, fork.Column] = Game.GetUnmarked();
                 }
                 for(int i = 0; i < 3; i++)
                 {
                     for(int j = 0; j < 3; j++)
                     {
-                        board[i, j] = Game.GetPlayerChar(player);
-                        Move win = GetWins(board, player).FirstOrDefault();
-                        if (win != null && GetForks(board, Game.GetOppositePlayer(player)).Count() > 1)
+                        if(Game.IsUnmarked(board[i, j]))
                         {
-                            return new Move { Row = i, Column = j };
+                            board[i, j] = Game.GetPlayerChar(player);
+                            Move win = GetWins(board, player).FirstOrDefault();
+                            if (win != null)
+                            {
+                                var localForks = GetForks(board, Game.GetOppositePlayer(player));
+                                if(!localForks.Any(x=> x.Row == win.Row && x.Column == win.Column))
+                                {
+                                    return new Move { Row = i, Column = j };
+                                }
+                            }
+                            board[i, j] = Game.GetUnmarked();
                         }
-                        board[i, j] = Game.GetUnmarked();
                     }
                 }
                 throw new InvalidOperationException("ERROR CODE 2: We should not reach here");
